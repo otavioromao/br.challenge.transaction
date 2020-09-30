@@ -3,16 +3,16 @@ REST API created to give support for transactions retrieving.
 
 ### Applications
 There are three applications:
-. A Service Register Server that will start in the following address: http://localhost:8082
-. A Gateway application that will start in the following address: http://localhost:8083
-. A Transaction REST API application that will start in the following address: http://localhost:8081
+  - A Service Register Server that will start in the following address: http://localhost:8082
+  - A Gateway application that will start in the following address: http://localhost:8083
+  - A Transaction REST API application that will start in the following address: http://localhost:8081
 
 The API can be accessed by the Gateway application and directly by Transaction REST API application:
-. Gateway application: http://localhost:8083/transactionapi/transactionmanagement/v1/<user Id>/transacoes/<year>/<month>
-. Transaction REST API application: http://localhost:8081/v1/<user Id>/transacoes/<year>/<month>
+  - Gateway application: http://localhost:8083/transactionapi/transactionmanagement/v1/userId/transacoes/year/month
+  - Transaction REST API application: http://localhost:8081/v1/userId/transacoes/year/month
 
-### API available:
-  - **/v1//<id>/transacoes/<ano>/<mes>** - Can be accessed via Http request method GET to retrieve a list of all transactions by user Id, year and month.
+### API available
+  - **/\<user Id>/transacoes/\<year>/\<month>** - Can be accessed via Http request method GET to retrieve a list of all transactions by user Id, year and month.
 
 The contract format to return the transactons is as following:
 
@@ -41,7 +41,9 @@ gradle build
 In root directory, br.challenge.transaction, start the applications executing the Gradle scripts as below:
 ```
 gradle br.challenge.transaction.eureka:bootRun
+
 gradle br.challenge.transaction.gateway:bootRun
+
 gradle br.challenge.transaction.rest:bootRun
 ```
 
