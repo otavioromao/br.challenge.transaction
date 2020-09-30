@@ -1,0 +1,11 @@
+.metadata/
+.settings/
+target/
+.mvn/
+.project
+.classpath
+mvnw
+mvnw.*
+.sonarlint/
+.factorypath
+build/

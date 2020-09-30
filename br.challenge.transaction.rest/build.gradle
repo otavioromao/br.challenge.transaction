@@ -1,0 +1,104 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'com.palantir.docker' version '0.22.1'
+	id 'com.palantir.docker-run' version '0.22.1'
+	id 'java'
+	id 'java-library'
+	id 'idea'
+	id 'eclipse'
+}
+
+group = 'br.challenge.transaction'
+version = '1.0.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', "Hoxton.SR8")
+	set('springBootVersion', '2.3.3.RELEASE')
+	set('dockerVersion', '0.22.1')
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-parent:2.3.3.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.3.3.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'javax.validation:validation-api'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testCompile 'org.hamcrest:hamcrest'
+	implementation 'org.modelmapper:modelmapper:2.3.8'
+	implementation 'org.apache.httpcomponents:httpclient'
+}
+
+apply plugin: 'org.springframework.boot'
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+bootJar {
+  enabled = true
+}
+
+bootRun {
+	optimizedLaunch = false
+}
+
+jar {
+	enabled = true
+	manifest {
+		attributes 'Main-Class': 'br.challenge.transaction.TransactionApplication'
+	}
+}
+
+task fatJar(type: Jar) {
+  manifest.from jar.manifest
+  classifier = 'all'
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+  {
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+  }
+  with jar
+}
+
+apply plugin: 'com.palantir.docker'
+apply plugin: 'com.palantir.docker-run'
+
+docker {
+	dependsOn clean
+    dependsOn build
+	dependsOn fatJar
+    name "${project.name}"
+    files "build/libs/${project.name}-${project.version}-all.jar"
+    buildArgs(['JAR_FILE': "${project.name}-${project.version}-all.jar"])
+}
+
+dockerRun {
+    name "${project.name}"
+    image "${project.name}"
+    ports '8081:8081'
+    clean true
+}
