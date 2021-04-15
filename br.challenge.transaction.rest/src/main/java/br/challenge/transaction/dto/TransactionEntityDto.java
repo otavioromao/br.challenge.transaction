@@ -35,16 +35,16 @@ public class TransactionEntityDto
      * Specifies the date for the transaction.
      */
     @NotNull(message = "The field date is mandatory.")
-    private String date;
+    private Long date;
 
     /**
      * Specifies the value for the transaction.
      */
     @NotNull(message = "The field value is mandatory.")
-    private String value;
+    private Integer value;
 
     /**
      * Specifies if the transaction is duplicated.
      */
-    private String duplicated;
+    private Boolean duplicated;
 }

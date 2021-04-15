@@ -1,6 +1,6 @@
 rootProject.name = 'br.challenge.transaction'
 
 include 'br.challenge.transaction.core'
-include 'br.challenge.transaction.eureka'
+include 'br.challenge.transaction.discovery'
 include 'br.challenge.transaction.gateway'
 include 'br.challenge.transaction.rest'

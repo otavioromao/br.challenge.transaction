@@ -1,8 +1,7 @@
-FROM java:8-jre
+FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 WORKDIR /app
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=build/lib/*.jar
 COPY ${JAR_FILE} /app/app.jar
-ADD ./build/resources/main/application.properties /app/application.properties
-ENTRYPOINT ["java" ,"-Djava.security.egd=file:/dev/./urandom --spring.config.location=classpath:file:/app/application.properties","-jar","/app/app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
 EXPOSE 8081

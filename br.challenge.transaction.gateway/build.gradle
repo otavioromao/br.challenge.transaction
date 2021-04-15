@@ -4,14 +4,17 @@ plugins {
 	id 'com.palantir.docker' version '0.22.1'
 	id 'com.palantir.docker-run' version '0.22.1'
 	id 'java'
-	id 'java-library'
+    id 'java-library'
 	id 'idea'
 	id 'eclipse'
+    id 'application'
+    id 'groovy'
 }
 
 group = 'br.challenge.transaction'
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -51,33 +54,19 @@ test {
 	useJUnitPlatform()
 }
 
+application {
+    mainClass = 'br.challenge.transaction.gateway.GatewayApplication'
+}
+
 bootJar {
-  enabled = true
+	enabled = true
+	classifier = 'all'
+	mainClassName = 'br.challenge.transaction.gateway.GatewayApplication'
+	destinationDirectory = file("${project.buildDir}/lib")
 }
 
 bootRun {
 	optimizedLaunch = false
-}
-
-jar {
-	enabled = true
-	manifest {
-		attributes 'Main-Class': 'br.challenge.transaction.gateway.GatewayApplication'
-	}
-}
-
-task fatJar(type: Jar) {
-  manifest.from jar.manifest
-  classifier = 'all'
-  from {
-    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-  }
-  {
-    exclude "META-INF/*.SF"
-    exclude "META-INF/*.DSA"
-    exclude "META-INF/*.RSA"
-  }
-  with jar
 }
 
 apply plugin: 'com.palantir.docker'
@@ -86,15 +75,14 @@ apply plugin: 'com.palantir.docker-run'
 docker {
 	dependsOn clean
     dependsOn build
-	dependsOn fatJar
     name "${project.name}"
-    files "build/libs/${project.name}-${project.version}-all.jar"
+    files "build/lib/${project.name}-${project.version}-all.jar"
     buildArgs(['JAR_FILE': "${project.name}-${project.version}-all.jar"])
 }
 
 dockerRun {
     name "${project.name}"
     image "${project.name}"
-    ports '8083:8083'
+    ports '8083:80'
     clean true
 }

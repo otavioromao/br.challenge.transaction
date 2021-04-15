@@ -25,8 +25,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 
-import br.challenge.transaction.ctrl.TransactionController;
 import br.challenge.transaction.dto.TransactionEntityDto;
+import br.challenge.transaction.rest.TransactionController;
 import br.challenge.transaction.service.TransactionService;
 
 /**

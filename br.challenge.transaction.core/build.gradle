@@ -1,29 +1,14 @@
-buildscript {
-	ext {
-		set('springCloudVersion', "Hoxton.SR8")
-		set('springBootVersion', '2.3.3.RELEASE')
-		set('dockerVersion', '0.22.1')
-	}
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-		classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:${dockerVersion}"
-    }
-}
-
 plugins {
 	id 'org.springframework.boot' version '2.3.3.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
-	id 'idea'
-	id 'eclipse'
+    id 'java-library'
 }
 
 group = 'br.challenge.transaction'
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -32,13 +17,15 @@ repositories {
 
 ext {
 	set('springCloudVersion', "Hoxton.SR8")
-    set('springBootVersion', '2.3.3.RELEASE')
+	set('springBootVersion', '2.3.3.RELEASE')
+	set('dockerVersion', '0.22.1')
 }
 
 dependencies {
-	compile group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.3.3.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-starter-parent:2.3.3.RELEASE'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.3.3.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	compile 'javax.validation:validation-api'
+	implementation 'javax.validation:validation-api'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testCompileOnly 'org.projectlombok:lombok'
@@ -48,7 +35,6 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
-
 
 apply plugin: 'org.springframework.boot'
 
@@ -62,23 +48,15 @@ test {
 	useJUnitPlatform()
 }
 
+jar {
+	enabled = true
+	destinationDirectory = file("${project.buildDir}/lib")
+}
+
 bootRun {
 	enabled = false
 }
 
 bootJar {
 	enabled = false
-}
-
-jar {
-	enabled = true
-}
-
-apply plugin: 'com.palantir.docker'
-
-docker {
-    dependsOn build
-    name "${project.name}"
-    files bootJar.archivePath
-    buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
 }

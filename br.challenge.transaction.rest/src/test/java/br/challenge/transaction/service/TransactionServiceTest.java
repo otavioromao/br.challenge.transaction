@@ -45,10 +45,10 @@ class TransactionServiceTest
     @Test
     void getTransactions_withTwoTransactions_shoudReturnTwoTransactions()
     {
-	TransactionEntityDto transactionOneExpected = createTransactionEntityDto(DESCRIPTION_VALUE,
-		String.valueOf(DATE_VALUE), String.valueOf(TRANSACTION_VALUE_VALUE), Boolean.FALSE.toString());
-	TransactionEntityDto transactionTwoExpected = createTransactionEntityDto(DESCRIPTION_VALUE,
-		String.valueOf(DATE_VALUE), String.valueOf(TRANSACTION_VALUE_VALUE), Boolean.TRUE.toString());
+	TransactionEntityDto transactionOneExpected = createTransactionEntityDto(DESCRIPTION_VALUE, DATE_VALUE,
+		TRANSACTION_VALUE_VALUE, Boolean.FALSE);
+	TransactionEntityDto transactionTwoExpected = createTransactionEntityDto(DESCRIPTION_VALUE, DATE_VALUE,
+		TRANSACTION_VALUE_VALUE, Boolean.TRUE);
 
 	List<TransactionEntityDto> transactionsExpected = new ArrayList<>();
 	transactionsExpected.add(transactionOneExpected);
@@ -78,8 +78,8 @@ class TransactionServiceTest
 		.build();
     }
 
-    private TransactionEntityDto createTransactionEntityDto(String description, String date, String value,
-	    String duplicated)
+    private TransactionEntityDto createTransactionEntityDto(String description, Long date, Integer value,
+	    Boolean duplicated)
     {
 	return TransactionEntityDto.builder().description(description).date(date).value(value).duplicated(duplicated)
 		.build();

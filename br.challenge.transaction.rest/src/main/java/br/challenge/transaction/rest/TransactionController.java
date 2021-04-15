@@ -1,7 +1,7 @@
 //**********************************************************************
 // REST API created to give support for transactions retrieving.
 // **********************************************************************
-package br.challenge.transaction.ctrl;
+package br.challenge.transaction.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

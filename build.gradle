@@ -1,7 +1,6 @@
 subprojects {
     apply plugin: 'java-library'
     group = 'br.challenge.transaction'
-    version = '1.0.0-SNAPSHOT'
 
 	dependencies {
 		testCompile('org.junit.jupiter:junit-jupiter')

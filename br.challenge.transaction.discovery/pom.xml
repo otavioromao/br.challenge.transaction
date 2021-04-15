@@ -10,13 +10,13 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<artifactId>br.challenge.transaction.eureka</artifactId>
+	<artifactId>br.challenge.transaction.discovery</artifactId>
 
-	<name>br.challenge.transaction.eureka</name>
+	<name>br.challenge.transaction.discovery</name>
 	<description>Service discovery for the microservices.</description>
 
 	<properties>
-		<heroku-app-name>eureka-transaction-rest-api</heroku-app-name>
+		<heroku-app-name>discovery-transaction-rest-api</heroku-app-name>
 	</properties>
 
 	<dependencies>
