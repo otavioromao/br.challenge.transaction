@@ -1,4 +1,5 @@
 FROM openjdk:8-jdk-alpine
+RUN addgroup -S spring && adduser -S spring -G spring
 VOLUME /tmp
 WORKDIR /app
 ARG JAR_FILE=build/lib/*.jar

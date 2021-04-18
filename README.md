@@ -1,15 +1,8 @@
 # Transaction REST API
 REST API created to give support for transactions retrieving.
 
-### Applications
-There are three applications:
-  - A Service Register Server that will start in the following address: http://localhost:8082
-  - A Gateway application that will start in the following address: http://localhost:8083
-  - A Transaction REST API application that will start in the following address: http://localhost:8081
-
-The API can be accessed by the Gateway application and directly by Transaction REST API application:
-  - Gateway application: http://localhost:8083/transactionapi/transactionmanagement/v1/userId/transacoes/year/month
-  - Transaction REST API application: http://localhost:8081/v1/userId/transacoes/year/month
+### Application
+A Transaction REST API application that will start in the following address: http://localhost:8081/v1/userId/transacoes/year/month
 
 ### API available
   - **/\<user Id>/transacoes/\<year>/\<month>** - Can be accessed via Http request method GET to retrieve a list of all transactions by user Id, year and month.
@@ -24,47 +17,41 @@ Content-type: application/json
 [
   {
      "description": "string(10, 120)"
-     "date": "long(timestamp)"
-     "value": "integer(-9.999.999, 9.999.999)"
-     "duplicated": "boolean"
+     "date": long(timestamp)
+     "value": integer(-9.999.999, 9.999.999)
+     "duplicated": boolean
   }  
 ]
 ```
 
 ### Building
-In root directory, br.challenge.transaction, build the applications executing the Gradle scripts as below:
+In root directory, br.challenge.transaction, build the application executing the Gradle scripts as below:
 ```
-gradle build
+gradlew build
 ```
 
 ### Running
-In root directory, br.challenge.transaction, start the applications executing the Gradle scripts as below:
+In root directory, br.challenge.transaction, start the application executing the Gradle scripts as below:
 ```
-gradle br.challenge.transaction.eureka:bootRun
-
-gradle br.challenge.transaction.gateway:bootRun
-
-gradle br.challenge.transaction.rest:bootRun
+gradlew bootRun
 ```
 
 ### Building Docker Images
-In root directory, br.challenge.transaction, build the Docker images executing the scripts as below:
+In root directory, br.challenge.transaction, build the Docker images executing the scripts as below, where X.X.X-SNAPSHOT is the version of the application:
 ```
-gradle br.challenge.transaction.rest:docker and also, in br.challenge.transaction.eureka directory, docker build --build-arg JAR_FILE=build/libs/br.challenge.transaction.eureka-1.0.0-SNAPSHOT-all.jar -t br.challenge.transaction.eureka .
+gradlew docker
 
-gradle br.challenge.transaction.eureka:docker and also, in br.challenge.transaction.eureka directory, docker build --build-arg JAR_FILE=build/libs/br.challenge.transaction.eureka-1.0.0-SNAPSHOT-all.jar -t br.challenge.transaction.eureka .
+and also
 
-gradle br.challenge.transaction.gateway:docker and also, in br.challenge.transaction.gateway directory, docker build --build-arg JAR_FILE=build/libs/br.challenge.transaction.gateway-1.0.0-SNAPSHOT-all.jar -t br.challenge.transaction.gateway .
-
-gradle br.challenge.transaction.rest:docker and also, in br.challenge.transaction.rest directory, docker build --build-arg JAR_FILE=build/libs/br.challenge.transaction.rest-1.0.0-SNAPSHOT-all.jar -t br.challenge.transaction.rest .
+docker build --build-arg JAR_FILE=build/lib/br.challenge.transaction-X.X.X-SNAPSHOT-all.jar -t br.challenge.transaction .
 ```
 
 ### Running Docker Images
-In root directory, br.challenge.transaction, build the Docker images executing the scripts as below:
+In root directory, br.challenge.transaction, start the Docker image executing the script as below:
 ```
-docker run br.challenge.transaction.eureka
+gradlew dockerRun
 
-docker run br.challenge.transaction.gateway
+and also
 
-docker run br.challenge.transaction.rest
+docker run -p 8081:8081 br.challenge.transaction
 ```

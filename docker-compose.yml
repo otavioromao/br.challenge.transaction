@@ -1,20 +1,6 @@
 version: "3.8"
 services:
-  br.challenge.transaction.discovery:
+  br.challenge.transaction:
     ports:
-      - "8082:80"
-    restart: always
-
-  br.challenge.transaction.gateway:
-    depends_on:
-      - br.challenge.transaction.discovery
-    ports:
-      - "8083:80"
-    restart: always
-
-  br.challenge.transaction.rest:
-    depends_on:
-      - br.challenge.transaction.discovery
-    ports:
-      - "8081:80"
+      - "8081:8081"
     restart: always
